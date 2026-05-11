@@ -8,6 +8,7 @@ abstract class Routes {
   static const WALLET = _Paths.WALLET;
   static const SETTING = _Paths.SETTING;
   static const MAIN = _Paths.MAIN;
+  static const TRANSACTION = _Paths.TRANSACTION;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const WALLET = '/wallet';
   static const SETTING = '/setting';
   static const MAIN = '/main';
+  static const TRANSACTION = '/transaction';
 }

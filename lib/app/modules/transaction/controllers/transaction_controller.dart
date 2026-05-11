@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class StatisticController extends GetxController {
-  //TODO: Implement StatisticController
+class TransactionController extends GetxController {
+  //TODO: Implement TransactionController
 
   final count = 0.obs;
   @override

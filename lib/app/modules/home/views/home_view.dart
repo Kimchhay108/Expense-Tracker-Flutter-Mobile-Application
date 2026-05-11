@@ -104,10 +104,34 @@ class HomeView extends GetView<HomeController> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: transaction_button(
+                          onPressed: () {},
+                          btn_text: 'Income',
+                          btn_color: const Color(0xFF00A86B),
+                          btn_icon: Icons.add_rounded,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: transaction_button(
+                          onPressed: () {},
+                          btn_text: 'Expense',
+                          btn_color: const Color(0xFFFD3C4A),
+                          btn_icon: Icons.remove_rounded,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ),
+          
+
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 55),
@@ -583,10 +607,7 @@ class _BottomNavBar extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          bottom: 36,
-          child: _FloatingActionButton(),
-        ),
+        
       ],
     );
   }
@@ -623,36 +644,52 @@ class _NavItem extends StatelessWidget {
   }
 }
 
-class _FloatingActionButton extends StatelessWidget {
+class transaction_button extends StatelessWidget {
+  const transaction_button({
+    super.key,
+    required this.onPressed,
+    required this.btn_text,
+    required this.btn_color,
+    required this.btn_icon,
+  });
+
+  final VoidCallback onPressed;
+  final String btn_text;
+  final Color btn_color;
+  final IconData btn_icon;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 64,
-      height: 64,
-      decoration: BoxDecoration(
-        color: const Color(0xFF7E3DFF),
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF7E3DFF).withOpacity(0.4),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-            spreadRadius: 2,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.4,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: btn_color,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(32),
           ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {},
-          customBorder: const CircleBorder(),
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 28,
-          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(btn_icon, size: 18),
+            const SizedBox(width: 8),
+            Text(
+              btn_text,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+

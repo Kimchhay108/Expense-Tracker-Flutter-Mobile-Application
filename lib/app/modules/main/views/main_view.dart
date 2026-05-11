@@ -1,6 +1,7 @@
 import 'package:expense_tracker/app/modules/home/views/home_view.dart';
 import 'package:expense_tracker/app/modules/setting/views/setting_view.dart';
-import 'package:expense_tracker/app/modules/statistic/views/statistic_view.dart';
+
+import 'package:expense_tracker/app/modules/transaction/views/transaction_view.dart';
 import 'package:expense_tracker/app/modules/wallet/views/wallet_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
@@ -61,7 +62,7 @@ class MainView extends GetView<MainController> {
               physics: const BouncingScrollPhysics(),
               children: const [
                 const HomeView(),
-                const StatisticView(),
+                const TransactionView(),
                 const WalletView(),
                 const SettingView()
               ],
@@ -72,7 +73,7 @@ class MainView extends GetView<MainController> {
               controller: controller.tabController,
               tabs: const [
                 Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.wallet)),
+                Tab(icon: Icon(Icons.transform_rounded)),
                 Tab(icon: Icon(Icons.bar_chart)),
                 Tab(icon: Icon(Icons.settings)),
               ],
