@@ -4,9 +4,10 @@ import 'package:expense_tracker/app/modules/setting/views/setting_view.dart';
 import 'package:expense_tracker/app/modules/transaction/views/transaction_view.dart';
 import 'package:expense_tracker/app/modules/wallet/views/wallet_view.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:get/get.dart';
-import 'package:get_cli/common/utils/json_serialize/json_ast/error.dart';
 import '../controllers/main_controller.dart';
 
 class MainView extends GetView<MainController> {
@@ -20,8 +21,6 @@ class MainView extends GetView<MainController> {
       Colors.orangeAccent,
       Colors.purpleAccent,
     ];
-
-    final unselectedColor = Colors.grey;
 
     return Scaffold(
       body: Obx(() => BottomBar(
@@ -69,13 +68,13 @@ class MainView extends GetView<MainController> {
             ),
 
             // bottom tabs
-            child: TabBar(
+              child: TabBar(
               controller: controller.tabController,
-              tabs: const [
-                Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.transform_rounded)),
-                Tab(icon: Icon(Icons.bar_chart)),
-                Tab(icon: Icon(Icons.settings)),
+              tabs: [
+                Tab(icon: FaIcon(FontAwesomeIcons.house)),
+                Tab(icon: FaIcon(FontAwesomeIcons.rightLeft)),
+                Tab(icon: FaIcon(FontAwesomeIcons.chartBar)),
+                Tab(icon: FaIcon(FontAwesomeIcons.gear)),
               ],
             ),
           )),

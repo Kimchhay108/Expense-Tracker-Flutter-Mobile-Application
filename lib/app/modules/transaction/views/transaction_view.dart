@@ -19,26 +19,6 @@ class TransactionView extends GetView<TransactionController> {
                 child: Column(
                   children: [
                     const SizedBox(height: 8),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _OutlinedIconButton(
-                            icon: Icons.keyboard_arrow_left_rounded,
-                            onPressed: () => Get.back(),
-                          ),
-                          _MonthButton(
-                            label: 'Month',
-                            onPressed: () {},
-                          ),
-                          _OutlinedIconButton(
-                            icon: Icons.settings_outlined,
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ),
                     const SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -149,67 +129,9 @@ class TransactionView extends GetView<TransactionController> {
   }
 }
 
-class _OutlinedIconButton extends StatelessWidget {
-  const _OutlinedIconButton({required this.icon, required this.onPressed});
 
-  final IconData icon;
-  final VoidCallback onPressed;
 
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-        side: const BorderSide(color: Color(0xFFF1F1FA)),
-      ),
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(8),
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child: Icon(icon, color: const Color(0xFF212224)),
-        ),
-      ),
-    );
-  }
-}
 
-class _MonthButton extends StatelessWidget {
-  const _MonthButton({required this.label, required this.onPressed});
-
-  final String label;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        foregroundColor: const Color(0xFF212224),
-        padding: const EdgeInsets.only(top: 8, left: 8, right: 16, bottom: 8),
-        side: const BorderSide(color: Color(0xFFF1F1FA)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.keyboard_arrow_down_rounded, size: 22),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF212224),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _ReportBanner extends StatelessWidget {
   const _ReportBanner({required this.onPressed});
