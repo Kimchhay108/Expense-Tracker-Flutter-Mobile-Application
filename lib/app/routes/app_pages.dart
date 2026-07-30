@@ -6,7 +6,8 @@ import '../modules/main/bindings/main_binding.dart';
 import '../modules/main/views/main_view.dart';
 import '../modules/setting/bindings/setting_binding.dart';
 import '../modules/setting/views/setting_view.dart';
-
+import '../modules/statistic/bindings/statistic_binding.dart';
+import '../modules/statistic/views/statistic_view.dart';
 import '../modules/transaction/bindings/transaction_binding.dart';
 import '../modules/transaction/views/transaction_view.dart';
 import '../modules/wallet/bindings/wallet_binding.dart';
@@ -25,7 +26,6 @@ class AppPages {
       page: () => const HomeView(),
       binding: HomeBinding(),
     ),
-    
     GetPage(
       name: _Paths.WALLET,
       page: () => const WalletView(),
@@ -45,6 +45,11 @@ class AppPages {
       name: _Paths.TRANSACTION,
       page: () => const TransactionView(),
       binding: TransactionBinding(),
+    ),
+    GetPage(
+      name: _Paths.STATISTIC,
+      page: () => const StatisticView(),
+      binding: StatisticBinding(),
     ),
   ];
 }

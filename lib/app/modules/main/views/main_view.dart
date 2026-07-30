@@ -1,13 +1,11 @@
-import 'package:expense_tracker/app/modules/home/views/home_view.dart';
-import 'package:expense_tracker/app/modules/setting/views/setting_view.dart';
-
-import 'package:expense_tracker/app/modules/transaction/views/transaction_view.dart';
-import 'package:expense_tracker/app/modules/wallet/views/wallet_view.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:get/get.dart';
+
+import '../../home/views/home_view.dart';
+import '../../statistic/views/statistic_view.dart';
+import '../../wallet/views/wallet_view.dart';
+import '../../setting/views/setting_view.dart';
+import '../../transaction/views/add_transaction_view.dart';
 import '../controllers/main_controller.dart';
 
 class MainView extends GetView<MainController> {
@@ -15,69 +13,71 @@ class MainView extends GetView<MainController> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = [
-      Colors.greenAccent,
-      Colors.blueAccent,
-      Colors.orangeAccent,
-      Colors.purpleAccent,
-    ];
-
     return Scaffold(
-      body: Obx(() => BottomBar(
-            
-            fit: StackFit.expand,
-            borderRadius: BorderRadius.circular(500),
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.decelerate,
-            showIcon: true,
-            width: MediaQuery.of(context).size.width * 0.8,
-            barColor:
-                Color(Colors.white.value),
-            start: 2,
-            end: 0,
-            offset: 10,
-            barAlignment: Alignment.bottomCenter,
-            iconHeight: 35,
-            iconWidth: 35,
-            reverse: false,
-            
-            barDecoration: BoxDecoration(
-              color: colors[controller.currentPage.value],
-              borderRadius: BorderRadius.circular(500),
-              
-            ),
-            iconDecoration: BoxDecoration(
-              color: colors[controller.currentPage.value],
-              borderRadius: BorderRadius.circular(500),
-            ),
-            hideOnScroll: true,
-            scrollOpposite: false,
-            onBottomBarHidden: () {},
-            onBottomBarShown: () {},
-
-            // screens
-            body: (context, _) => TabBarView(
-              controller: controller.tabController,
-              physics: const BouncingScrollPhysics(),
-              children: const [
-                const HomeView(),
-                const TransactionView(),
-                const WalletView(),
-                const SettingView()
-              ],
-            ),
-
-            // bottom tabs
-              child: TabBar(
-              controller: controller.tabController,
-              tabs: [
-                Tab(icon: FaIcon(FontAwesomeIcons.house)),
-                Tab(icon: FaIcon(FontAwesomeIcons.rightLeft)),
-                Tab(icon: FaIcon(FontAwesomeIcons.chartBar)),
-                Tab(icon: FaIcon(FontAwesomeIcons.gear)),
-              ],
+      backgroundColor: Colors.white,
+      body: TabBarView(
+        controller: controller.tabController,
+        physics: const NeverScrollableScrollPhysics(), // Disable swipe for direct tabs
+        children: const [
+          HomeView(),
+          StatisticView(),
+          WalletView(),
+          SettingView(),
+        ],
+      ),
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(top: 20), // Slight offset downward to sit in the notch nicely
+        child: FloatingActionButton(
+          onPressed: () {
+            Get.to(() => const AddTransactionView());
+          },
+          backgroundColor: const Color(0xFF438883),
+          shape: const CircleBorder(),
+          elevation: 4,
+          child: const Icon(Icons.add, color: Colors.white, size: 28),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: Obx(() => BottomAppBar(
+            shape: const CircularNotchedRectangle(),
+            notchMargin: 8.0,
+            clipBehavior: Clip.antiAlias,
+            color: Colors.white,
+            elevation: 10,
+            shadowColor: Colors.black.withValues(alpha: 0.3),
+            child: SizedBox(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // Tab 0: Home
+                  _buildTabIcon(0, Icons.home_rounded, Icons.home_outlined),
+                  // Tab 1: Statistics
+                  _buildTabIcon(1, Icons.bar_chart_rounded, Icons.bar_chart_rounded),
+                  const SizedBox(width: 48), // Gap for FAB
+                  // Tab 2: Wallet
+                  _buildTabIcon(2, Icons.account_balance_wallet_rounded, Icons.account_balance_wallet_outlined),
+                  // Tab 3: Profile/Settings
+                  _buildTabIcon(3, Icons.person_rounded, Icons.person_outline_rounded),
+                ],
+              ),
             ),
           )),
+    );
+  }
+
+  Widget _buildTabIcon(int index, IconData activeIcon, IconData inactiveIcon) {
+    final isSelected = controller.currentPage.value == index;
+    return IconButton(
+      icon: Icon(
+        isSelected ? activeIcon : inactiveIcon,
+        color: isSelected ? const Color(0xFF438883) : const Color(0xFFC5C5C5),
+        size: 28,
+      ),
+      onPressed: () {
+        controller.tabController.animateTo(index);
+        controller.currentPage.value = index;
+      },
     );
   }
 }

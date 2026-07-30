@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'package:get/get.dart';
-
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -10,687 +8,710 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final topInset = MediaQuery.of(context).padding.top;
-
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F7FB),
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFFFFF6E5), Color(0x00F7ECD7)],
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32),
-                ),
-              ),
-              padding: EdgeInsets.fromLTRB(16, topInset + 24, 16, 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _AvatarButton(
-                        backgroundColor: Colors.white,
-                        borderColor: const Color(0xFFF1F1FA),
-                        icon: Icons.person,
-                        iconColor: const Color(0xFF161719),
-                        onPressed: () {},
-                      ),
-                      _MonthSelector(
-                        label: 'October',
-                        onPressed: () {},
-                      ),
-                      _AvatarButton(
-                        backgroundColor: Colors.white,
-                        borderColor: const Color(0xFFF1F1FA),
-                        icon: Icons.notifications_none,
-                        iconColor: const Color(0xFF161719),
-                        onPressed: () {},
-                      ),
-                    ],
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                // Curved Header Background with gradient
+                Container(
+                  height: 280,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF429690), Color(0xFF2E7E78)],
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
                   ),
-                  const SizedBox(height: 24),
-                  Center(
+                ),
+                // Decorative Circle 1
+                Positioned(
+                  right: -30,
+                  top: -30,
+                  child: Opacity(
+                    opacity: 0.1,
+                    child: Container(
+                      width: 180,
+                      height: 180,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                // Decorative Circle 2
+                Positioned(
+                  left: -50,
+                  top: 80,
+                  child: Opacity(
+                    opacity: 0.1,
+                    child: Container(
+                      width: 130,
+                      height: 130,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                // Decorative Circle 3
+                Positioned(
+                  left: 120,
+                  top: -20,
+                  child: Opacity(
+                    opacity: 0.1,
+                    child: Container(
+                      width: 85,
+                      height: 85,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                // Header Content
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Account Balance',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: const Color(0xFF90909F),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '\$9,400',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.headlineMedium?.copyWith(
-                            color: const Color(0xFF161719),
-                            fontSize: 40,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        // Greet & Notification Row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Obx(() => Text(
+                                      controller.greetPrefix.value,
+                                      style: TextStyle(
+                                        color: Colors.white.withValues(alpha: 0.85),
+                                        fontSize: 14,
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    )),
+                                const SizedBox(height: 4),
+                                Obx(() => Text(
+                                      controller.userName.value,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )),
+                              ],
+                            ),
+                            // Notification Button
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.06),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                Icons.notifications_none_rounded,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: const [
-                      Expanded(
-                        child: _SummaryCard(
-                          accentColor: Color(0xFF00A86B),
-                          iconBackground: Color(0xFFFBFBFB),
-                          title: 'Income',
-                          amount: '\$5,000',
-                          icon: Icons.trending_up,
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: _SummaryCard(
-                          accentColor: Color(0xFFFD3C4A),
-                          iconBackground: Color(0xFFFBFBFB),
-                          title: 'Expenses',
-                          amount: '\$1,200',
-                          icon: Icons.trending_down,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: transaction_button(
-                          onPressed: () {},
-                          btn_text: 'Income',
-                          btn_color: const Color(0xFF00A86B),
-                          btn_icon: Icons.add_rounded,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: transaction_button(
-                          onPressed: () {},
-                          btn_text: 'Expense',
-                          btn_color: const Color(0xFFFD3C4A),
-                          btn_icon: Icons.remove_rounded,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          
-
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 55),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Spend Frequency',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: const Color(0xFF0D0E0F),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  const _SpendFrequencyCard(),
-                  const SizedBox(height: 16),
-                  const _PeriodFilterBar(),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Recent Transaction',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: const Color(0xFF292B2D),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          backgroundColor: const Color(0xFFEEE5FF),
-                          foregroundColor: const Color(0xFF7E3DFF),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 10,
-                          ),
-                          minimumSize: Size.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                        ),
-                        child: const Text('See All'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  const _TransactionCard(
-                    accentColor: Color(0xFFFCEED3),
-                    title: 'Shopping',
-                    subtitle: 'Buy some grocery',
-                    amount: '- \$120',
-                    time: '10:00 AM',
-                    amountColor: Color(0xFFFD3C4A),
-                    icon: Icons.shopping_bag_outlined,
-                  ),
-                  const SizedBox(height: 12),
-                  const _TransactionCard(
-                    accentColor: Color(0xFFEEE5FF),
-                    title: 'Subscription',
-                    subtitle: 'Disney+ Annual..',
-                    amount: '- \$80',
-                    time: '03:30 PM',
-                    amountColor: Color(0xFFFD3C4A),
-                    icon: Icons.subscriptions_outlined,
-                  ),
-                  const SizedBox(height: 12),
-                  const _TransactionCard(
-                    accentColor: Color(0xFFFDD4D7),
-                    title: 'Food',
-                    subtitle: 'Buy a ramen',
-                    amount: '- \$32',
-                    time: '07:30 PM',
-                    amountColor: Color(0xFFFD3C4A),
-                    icon: Icons.restaurant_outlined,
-                  ),
-                  const SizedBox(height: 24),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AvatarButton extends StatelessWidget {
-  const _AvatarButton({
-    required this.backgroundColor,
-    required this.borderColor,
-    required this.icon,
-    required this.iconColor,
-    required this.onPressed,
-  });
-
-  final Color backgroundColor;
-  final Color borderColor;
-  final IconData icon;
-  final Color iconColor;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: backgroundColor,
-      shape: CircleBorder(side: BorderSide(color: borderColor)),
-      child: IconButton(
-        onPressed: onPressed,
-        icon: Icon(icon, color: iconColor),
-        tooltip: '',
-      ),
-    );
-  }
-}
-
-class _MonthSelector extends StatelessWidget {
-  const _MonthSelector({required this.label, required this.onPressed});
-
-  final String label;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        foregroundColor: const Color(0xFF212224),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        side: const BorderSide(color: Color(0xFFF1F1FA)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.keyboard_arrow_down_rounded, size: 20),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF212224),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SummaryCard extends StatelessWidget {
-  const _SummaryCard({
-    required this.accentColor,
-    required this.iconBackground,
-    required this.title,
-    required this.amount,
-    required this.icon,
-  });
-
-  final Color accentColor;
-  final Color iconBackground;
-  final String title;
-  final String amount;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: accentColor,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: iconBackground,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(icon, color: accentColor),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            amount,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SpendFrequencyCard extends StatelessWidget {
-  const _SpendFrequencyCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 180,
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF1F1FA)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: const [
-                _BarColumn(label: 'Mon', heightFactor: 0.45),
-                _BarColumn(label: 'Tue', heightFactor: 0.62),
-                _BarColumn(label: 'Wed', heightFactor: 0.30),
-                _BarColumn(label: 'Thu', heightFactor: 0.80, highlighted: true),
-                _BarColumn(label: 'Fri', heightFactor: 0.55),
-                _BarColumn(label: 'Sat', heightFactor: 0.70),
-                _BarColumn(label: 'Sun', heightFactor: 0.40),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BarColumn extends StatelessWidget {
-  const _BarColumn({
-    required this.label,
-    required this.heightFactor,
-    this.highlighted = false,
-  });
-
-  final String label;
-  final double heightFactor;
-  final bool highlighted;
-
-  @override
-  Widget build(BuildContext context) {
-    final barColor = highlighted ? const Color(0xFF7E3DFF) : const Color(0xFFEEE5FF);
-
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: FractionallySizedBox(
-                heightFactor: heightFactor,
-                child: Container(
-                  width: 16,
-                  decoration: BoxDecoration(
-                    color: barColor,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: const TextStyle(
-              color: Color(0xFF90909F),
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PeriodFilterBar extends StatelessWidget {
-  const _PeriodFilterBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: const Color(0xFFFBFBFB)),
-      ),
-      child: Row(
-        children: const [
-          _PeriodChip(label: 'Today', selected: true),
-          _PeriodChip(label: 'Week'),
-          _PeriodChip(label: 'Month'),
-          _PeriodChip(label: 'Year'),
-        ],
-      ),
-    );
-  }
-}
-
-class _PeriodChip extends StatelessWidget {
-  const _PeriodChip({required this.label, this.selected = false});
-
-  final String label;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    final backgroundColor = selected ? const Color(0xFFFCEED3) : Colors.transparent;
-    final textColor = selected ? const Color(0xFFFCAC12) : const Color(0xFF90909F);
-
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: textColor,
-            fontSize: 14,
-            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _TransactionCard extends StatelessWidget {
-  const _TransactionCard({
-    required this.accentColor,
-    required this.title,
-    required this.subtitle,
-    required this.amount,
-    required this.time,
-    required this.amountColor,
-    required this.icon,
-  });
-
-  final Color accentColor;
-  final String title;
-  final String subtitle;
-  final String amount;
-  final String time;
-  final Color amountColor;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFBFBFB),
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              color: accentColor,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(icon, color: const Color(0xFF161719)),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Color(0xFF292B2D),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    color: Color(0xFF90909F),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
+                // Floating Balance Card
+                Positioned(
+                  bottom: -90,
+                  left: 20,
+                  right: 20,
+                  child: _buildBalanceCard(context),
                 ),
               ],
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                amount,
-                style: TextStyle(
-                  color: amountColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                time,
-                style: const TextStyle(
-                  color: Color(0xFF90909F),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BottomNavBar extends StatelessWidget {
-  const _BottomNavBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 32),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            border: Border(top: BorderSide(color: Color(0xFFF1F1FA))),
-          ),
-          child: SafeArea(
-            top: false,
-            child: SizedBox(
-              height: 72,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _NavItem(icon: Icons.home_rounded, label: 'Home', selected: true),
-                  _NavItem(icon: Icons.swap_horiz_rounded, label: 'Transaction'),
-                  const SizedBox(width: 60),
-                  _NavItem(icon: Icons.account_balance_wallet_outlined, label: 'Budget'),
-                  _NavItem(icon: Icons.person_outline, label: 'Profile'),
-                ],
-              ),
-            ),
-          ),
-        ),
-        
-      ],
-    );
-  }
-}
-
-class _NavItem extends StatelessWidget {
-  const _NavItem({required this.icon, required this.label, this.selected = false});
-
-  final IconData icon;
-  final String label;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = selected ? const Color(0xFF7E3DFF) : const Color(0xFFC5C5C5);
-
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FaIcon(icon, color: color),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: color,
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class transaction_button extends StatelessWidget {
-  const transaction_button({
-    super.key,
-    required this.onPressed,
-    required this.btn_text,
-    required this.btn_color,
-    required this.btn_icon,
-  });
-
-  final VoidCallback onPressed;
-  final String btn_text;
-  final Color btn_color;
-  final IconData btn_icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.4,
-      height: 50,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: btn_color,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(btn_icon, size: 18),
-            const SizedBox(width: 8),
-            Text(
-              btn_text,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            const SizedBox(height: 110), // Space for overlapping card
+            // Transactions list
+            _buildTransactionsSection(),
+            const SizedBox(height: 16),
+            // Send again section
+            _buildSendAgainSection(),
+            const SizedBox(height: 40),
           ],
         ),
       ),
     );
   }
-}
 
+  Widget _buildBalanceCard(BuildContext context) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        // Back card effect peaking out
+        Opacity(
+          opacity: 0.8,
+          child: Container(
+            width: MediaQuery.of(context).size.width - 80,
+            height: 180,
+            decoration: BoxDecoration(
+              color: const Color(0xFF155F5A),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
+        // Front main balance card
+        Container(
+          margin: const EdgeInsets.only(bottom: 8),
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: const Color(0xFF2E7E78),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF2E7E78).withValues(alpha: 0.2),
+                blurRadius: 15,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Card Header
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        'Total Balance',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Colors.white.withValues(alpha: 0.8),
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                  const Icon(
+                    Icons.more_horiz_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              // Balance value
+              Obx(() => Text(
+                    '\$ ${controller.totalBalance.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )),
+              const SizedBox(height: 20),
+              // Income & Expenses row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Income Column
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.arrow_downward_rounded,
+                          color: Color(0xFF24A869),
+                          size: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Income',
+                            style: TextStyle(
+                              color: Color(0xFFD0E5E3),
+                              fontSize: 12,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Obx(() => Text(
+                                '\$ ${controller.income.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )),
+                        ],
+                      ),
+                    ],
+                  ),
+                  // Expenses Column
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.arrow_upward_rounded,
+                          color: Color(0xFFF95B51),
+                          size: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Expenses',
+                            style: TextStyle(
+                              color: Color(0xFFD0E5E3),
+                              fontSize: 12,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Obx(() => Text(
+                                '\$ ${controller.expenses.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTransactionsSection() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Transactions history',
+                style: TextStyle(
+                  color: Color(0xFF222222),
+                  fontSize: 18,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              TextButton(
+                onPressed: () => Get.toNamed(Routes.TRANSACTION),
+                child: const Text(
+                  'See all',
+                  style: TextStyle(
+                    color: Color(0xFF666666),
+                    fontSize: 14,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Obx(() {
+            final list = controller.transactions.take(4).toList();
+            if (list.isEmpty) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0),
+                child: Center(
+                  child: Text(
+                    'No transactions yet',
+                    style: TextStyle(color: Color(0xFF666666)),
+                  ),
+                ),
+              );
+            }
+            return ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                final item = list[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    children: [
+                      // Icon Container
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: item.iconBackground,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          item.icon,
+                          color: item.iconColor,
+                          size: 24,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      // Title & Subtitle
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.title,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              _formatDate(item.dateTime),
+                              style: const TextStyle(
+                                color: Color(0xFF666666),
+                                fontSize: 13,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Amount
+                      Text(
+                        '${item.isIncome ? '+' : '-'} \$ ${item.amount.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          color: item.isIncome ? const Color(0xFF24A869) : const Color(0xFFF95B51),
+                          fontSize: 18,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSendAgainSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Send Again',
+                style: TextStyle(
+                  color: Color(0xFF222222),
+                  fontSize: 18,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'See all',
+                  style: TextStyle(
+                    color: Color(0xFF666666),
+                    fontSize: 14,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 4),
+        SizedBox(
+          height: 70,
+          child: Obx(() => ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                itemCount: controller.contacts.length,
+                itemBuilder: (context, index) {
+                  final contact = controller.contacts[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                    child: GestureDetector(
+                      onTap: () => _showSendMoneyBottomSheet(context, contact),
+                      child: Container(
+                        width: 62,
+                        height: 62,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFC4C4C4),
+                        ),
+                        child: ClipOval(
+                          child: Image.network(
+                            contact.imageUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => const Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              )),
+        ),
+      ],
+    );
+  }
+
+  String _formatDate(DateTime dt) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final aDate = DateTime(dt.year, dt.month, dt.day);
+    
+    final timeStr = '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
+    if (aDate == today) {
+      return 'Today, $timeStr';
+    } else if (aDate == yesterday) {
+      return 'Yesterday, $timeStr';
+    } else {
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return '${months[dt.month - 1]} ${dt.day}, ${dt.year}';
+    }
+  }
+
+  void _showSendMoneyBottomSheet(BuildContext context, ContactItem contact) {
+    final amountController = TextEditingController();
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              const SizedBox(height: 24),
+              CircleAvatar(
+                radius: 40,
+                backgroundImage: NetworkImage(contact.imageUrl),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Send money to ${contact.name}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF222222),
+                ),
+              ),
+              const SizedBox(height: 24),
+              TextField(
+                controller: amountController,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF438883),
+                ),
+                decoration: const InputDecoration(
+                  prefixText: '\$ ',
+                  hintText: '0.00',
+                  border: InputBorder.none,
+                ),
+                autofocus: true,
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: () {
+                    final amount = double.tryParse(amountController.text) ?? 0.0;
+                    if (amount <= 0) {
+                      Get.snackbar(
+                        'Invalid Amount',
+                        'Please enter an amount greater than 0',
+                        snackPosition: SnackPosition.TOP,
+                        backgroundColor: const Color(0xFFF95B51),
+                        colorText: Colors.white,
+                      );
+                      return;
+                    }
+                    if (amount > controller.totalBalance) {
+                      Get.snackbar(
+                        'Insufficient Balance',
+                        'You do not have enough funds to complete this transfer',
+                        snackPosition: SnackPosition.TOP,
+                        backgroundColor: const Color(0xFFF95B51),
+                        colorText: Colors.white,
+                      );
+                      return;
+                    }
+                    
+                    controller.transferToContact(contact, amount);
+                    Get.back();
+                    _showSuccessDialog(contact.name, amount);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF438883),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: const Text(
+                    'Send Money',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  void _showSuccessDialog(String name, double amount) {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFE2F6F1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.check_circle_rounded,
+                  color: Color(0xFF24A869),
+                  size: 48,
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Transfer Successful',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF222222),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'You have successfully sent \$${amount.toStringAsFixed(2)} to $name.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF666666),
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton(
+                  onPressed: () => Get.back(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF438883),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Done',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
